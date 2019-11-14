@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect
 import datetime
 app = Flask(__name__)
 
@@ -12,7 +12,7 @@ def post_received():
     with open("/data/www/testserver/formdata/form_" + str(date), "w+") as f:
         f.write(str(request.form.to_dict()))
 
-    return 'thanks'
+    return redirect('http://dwidrihfe.csc.fi/success.html')
 
 @app.errorhandler(Exception)
 def exception_handler(error):
