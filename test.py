@@ -16,6 +16,6 @@ def post_received():
 
 @app.errorhandler(Exception)
 def exception_handler(error):
-    with open("/data/www/testserver/error", "a+") as f:
+    with open("/data/www/testserver/error.log", "a+") as f:
         f.write(repr(error))
     return 'Error logged'
