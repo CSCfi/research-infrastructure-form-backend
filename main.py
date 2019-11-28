@@ -4,7 +4,7 @@ import logging
 app = Flask(__name__)
 
 if __name__ != '__main__':
-    gunicorn_logger = logging.getLogger('/data/www/testserver/gunicorn.error')
+    gunicorn_logger = logging.getLogger('/data/www/infraserver/gunicorn.error')
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
 
@@ -46,13 +46,13 @@ def post_received():
         except KeyError:
             data = copy_values(data, firstFields=False, index=str(postfix))
 
-    with open("/data/www/testserver/formdata/form_" + str(date), "w+") as f:
+    with open("/data/www/infraserver/formdata/form_" + str(date), "w+") as f:
         f.write(str(data))
 
     return redirect('http://dwidrihfe.csc.fi/success.html')
 
 @app.errorhandler(Exception)
 def exception_handler(error):
-    with open("/data/www/testserver/error.serverlog", "a+") as f:
+    with open("/data/www/infraserver/error.serverlog", "a+") as f:
         f.write(repr(error))
     return 'Error logged'
