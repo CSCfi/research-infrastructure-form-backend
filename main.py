@@ -47,7 +47,7 @@ def post_received():
         except KeyError:
             data = copy_values(data, firstFields=False, index=str(postfix))
 
-    with open("/data/www/infraserver/formdata/form_" + str(date), "w+") as f:
+    with open("/data/www/infraserver/formdata/form_" + str(date) + ".json", "w+") as f:
         f.write(json.dumps(data, ensure_ascii=False, indent=4).encode('utf-8').decode())
 
     return redirect('http://dwidrihfe.csc.fi/success.html')
