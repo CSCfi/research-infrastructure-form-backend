@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect
 import datetime
 import logging
+import json
 app = Flask(__name__)
 
 if __name__ != '__main__':
@@ -47,7 +48,7 @@ def post_received():
             data = copy_values(data, firstFields=False, index=str(postfix))
 
     with open("/data/www/infraserver/formdata/form_" + str(date), "w+") as f:
-        f.write(str(data))
+        f.write(json.dumps(data, ensure_ascii=False, indent=4).encode('utf-8').decode())
 
     return redirect('http://dwidrihfe.csc.fi/success.html')
 
