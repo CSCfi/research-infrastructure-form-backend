@@ -9,18 +9,16 @@ if __name__ != '__main__':
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
 
-@app.route("/")
-def hello():
-    return "hello"
-
 @app.route("/", methods=['POST'])
 def post_received():
 
     def copy_values(data, firstFields=True, index=""):
+        # 3b fields from source (2a)
         source_prefix = "infraCon"
         target_prefix = "SerPoint"
         fields = ["Name", "Descr", "Tel", "Email", "Post", "Info", "Terms", "Municipality", "Country", "Latitude", "Longitude"]
 
+        # 3c fields from source (2b)
         if not firstFields:
             source_prefix = "CoOrg"
             target_prefix = "CoOrgOther"
@@ -35,15 +33,16 @@ def post_received():
     data = request.form.to_dict()
     extras = int(data["extra-services"])
 
+    # For each extra service
     for postfix in ([""] + [idx for idx in range(extras)]):
-    # Try because form doesn't send empty checkboxes and causes KeyError if accessed
+    # Check if the box for different info is checked. If not, error is raised and values are copied from the main service
         try:
-            data["SerPointSame"]
+            data["SerPointSame" + str(postfix)]
         except KeyError:
             data = copy_values(data, index=str(postfix))
 
         try:
-            data["SerCoOrg"]
+            data["SerCoOrg" + str(postfix)]
         except KeyError:
             data = copy_values(data, firstFields=False, index=str(postfix))
 
