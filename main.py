@@ -9,7 +9,7 @@ if __name__ != '__main__':
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
 
-@app.route("/", methods=['POST'])
+@app.route("/sent", methods=['POST'])
 def post_received():
 
     def copy_values(data, firstFields=True, index=""):
