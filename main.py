@@ -32,6 +32,7 @@ def post_received():
     date = datetime.datetime.now()
     data = request.form.to_dict()
     extras = int(data["extra-services"])
+    del data["extra-services"]
 
     # For each extra service
     for postfix in ([""] + [idx for idx in range(extras)]):
