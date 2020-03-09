@@ -35,15 +35,11 @@ def post_received():
 
     # For each extra service
     for postfix in ([""] + [idx for idx in range(extras)]):
-    # Check if the box for different info is checked. If not, error is raised and values are copied from the main service
-        try:
-            data["SerPointSame" + str(postfix)]
-        except KeyError:
+    # Check if the box for different info is checked. Copy values if not
+        if not int(data["SerPointSame" + str(postfix)]):
             data = copy_values(data, index=str(postfix))
 
-        try:
-            data["SerCoOrg" + str(postfix)]
-        except KeyError:
+        if not int(data["SerCoOrg" + str(postfix)]):
             data = copy_values(data, firstFields=False, index=str(postfix))
 
     with open("/data/www/infraserver/formdata/form_" + str(date) + ".json", "w+") as f:
