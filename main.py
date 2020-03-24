@@ -16,7 +16,7 @@ def post_received():
         # 3b fields from source (2a)
         source_prefix = "infraCon"
         target_prefix = "SerPoint"
-        fields = ["Name", "Descr", "Tel", "Email", "Post", "Info", "Terms", "Municipality", "Country", "Latitude", "Longitude"]
+        fields = ["Name", "Descr", "Tel", "Email", "Post", "Info", "Terms", "Municipality", "Country"]
 
         # 3c fields from source (2b)
         if not firstFields:
