@@ -1,5 +1,7 @@
 /venv
 /linuxenv
 .vscode/
+__pycache__/*
+testforms/
 
 local*
