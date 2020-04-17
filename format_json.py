@@ -24,7 +24,7 @@ def hierarchize(inputdir, form_file, outputdir):
     # Take the fields until the first service field
     common_fields = list(takewhile(lambda x: x != "serName", list(keys)))
     # Take the fields until first service field of second service (or end of file) and remove common fields
-    service_fields = list(takewhile(lambda x: x != "serName0", list(keys)))[len(common_fields):]
+    service_fields = list(takewhile(lambda x: x != "serName0" and x != "end_notes", list(keys)))[len(common_fields):]
 
     # Create the postfixes to loop over
     service_postfixes = [""] + [x for x in range(extra_services)]
