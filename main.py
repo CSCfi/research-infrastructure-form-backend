@@ -2,6 +2,7 @@ from flask import Flask, request, redirect
 import datetime
 import logging
 import json
+from format_json import hierarchize
 app = Flask(__name__)
 
 if __name__ != '__main__':
@@ -46,10 +47,12 @@ def post_received():
     with open("/data/www/infraserver/formdata/form_" + str(date) + ".json", "w+") as f:
         f.write(json.dumps(data, ensure_ascii=False, indent=4).encode('utf-8').decode())
 
+    hierarchize("/data/www/infraserver/formdata", "form_" + str(date) + ".json", "/data/www/infraserver/formdata")
+
     return redirect('http://dwidrihfe.csc.fi/success.html')
 
 @app.errorhandler(Exception)
 def exception_handler(error):
     with open("/data/www/infraserver/error.serverlog", "a+") as f:
-        f.write(repr(error))
+        f.write(repr(error) + "\n")
     return 'Error logged'
