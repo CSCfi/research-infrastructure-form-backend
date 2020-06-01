@@ -31,6 +31,8 @@ def post_received():
         return data
 
     date = datetime.datetime.now()
+    date_str = f"{date.year}-{date.month}-{date.day}_{date.hour}-{date.minute}-{date.second}"
+    filename = "form_" + date_str + ".json"
     data = request.form.to_dict()
     extras = int(data["extra-services"])
     del data["extra-services"]
@@ -44,10 +46,10 @@ def post_received():
         if not int(data["SerCoOrg" + str(postfix)]):
             data = copy_values(data, firstFields=False, index=str(postfix))
 
-    with open("/data/www/infraserver/formdata/form_" + str(date) + ".json", "w+") as f:
+    with open("/data/www/infraserver/formdata/" + filename, "w+") as f:
         f.write(json.dumps(data, ensure_ascii=False, indent=4).encode('utf-8').decode())
 
-    hierarchize("/data/www/infraserver/formdata", "form_" + str(date) + ".json", "/data/www/infraserver/formdata")
+    hierarchize("/data/www/infraserver/formdata", filename, "/data/www/infraserver/formdata")
 
     return redirect('http://dwidrihfe.csc.fi/success.html')
 
