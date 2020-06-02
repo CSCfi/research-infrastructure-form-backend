@@ -60,7 +60,7 @@ if __name__ == "__main__":
         inputdir = sys.argv[1]
         outputdir = sys.argv[2]
     except IndexError:
-        print("usage: format_python.py <input directory> <output directory>")
+        print("usage: format_json.py <input directory> <output directory>")
         sys.exit(0)
 
     for filename in os.listdir(inputdir):
