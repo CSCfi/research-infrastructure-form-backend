@@ -1,0 +1,11 @@
+[Unit]
+Description=Gunicorn instance to serve the infrastructure form backend
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/data/www/infraserver
+Environment="PATH=/data/www/infraserver/env/bin"
+ExecStart=/data/www/infraserver/env/bin/python3 /data/www/infraserver/env/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 -m 007 --log-level=debug --access-logfile /data/www/infraserver/gunicorn.log main:app
+
