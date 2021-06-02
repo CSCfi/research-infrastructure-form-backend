@@ -27,7 +27,7 @@ def post_received():
         if not firstFields:
             source_prefix = "CoOrg"
             target_prefix = "CoOrgOther"
-            fields = ["Name", "ID", "Isni"]
+            fields = ["ID", "Isni"]
             langs_field = ["Name"]
         
         langs = ["Fi","En","Sv"]
