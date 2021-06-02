@@ -6,9 +6,10 @@ from format_json import hierarchize
 app = Flask(__name__)
 
 if __name__ != '__main__':
-    gunicorn_logger = logging.getLogger('/data/www/infraserver/gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
+    logHandler = logging.FileHandler('/data/www/infraserver/gunicorn.error')
+    logHandler.setLevel(logging.WARN)
+    app.logger.addHandler(logHandler)
+    app.logger.setLevel(logging.WARN)
 
 @app.route("/sent", methods=['POST'])
 def post_received():
@@ -55,6 +56,5 @@ def post_received():
 
 @app.errorhandler(Exception)
 def exception_handler(error):
-    with open("/data/www/infraserver/error.serverlog", "a+") as f:
-        f.write(repr(error) + "\n")
-    return 'Error logged'
+    app.logger.exception("----------" + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "----------")
+    return 'There was an error while submitting the request.\nThe error has been logged'
