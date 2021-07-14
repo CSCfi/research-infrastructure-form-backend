@@ -16,15 +16,23 @@ def post_received():
 
     def copy_values(data, firstFields=True, index=""):
         # 3b fields from source (2a)
+        
         source_prefix = "infraCon"
         target_prefix = "SerPoint"
-        fields = ["Name", "Descr", "Tel", "Email", "Post", "Info", "Terms", "Municipality", "Country"]
+        fields = ["Tel", "Email", "Post","Municipality", "Country"]
+        langs_field = ["Name","Descr","Info","Terms"]
+        
 
         # 3c fields from source (2b)
         if not firstFields:
             source_prefix = "CoOrg"
             target_prefix = "CoOrgOther"
-            fields = ["Name", "ID", "Isni"]
+            fields = ["ID", "Isni"]
+            langs_field = ["Name"]
+        
+        langs = ["Fi","En","Sv"]
+        fields = fields + [field + lang for field in langs_field for lang in langs]
+
 
         for field in fields:
             data[target_prefix + field + index] = data[source_prefix + field]
