@@ -1,12 +1,15 @@
 /venv
+/env
 /linuxenv
 .vscode/
 __pycache__/*
 testforms/
 
 local*
+gunicorn*
 scripttest/
 
 old_infras/
+/formdata
 no_lang/
 lang/

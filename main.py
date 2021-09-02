@@ -5,11 +5,11 @@ import json
 from format_json import hierarchize
 app = Flask(__name__)
 
-# if __name__ != '__main__':
-    # logHandler = logging.FileHandler('/data/www/infraserver/gunicorn.error')
-    # logHandler.setLevel(logging.WARN)
-    # app.logger.addHandler(logHandler)
-    # app.logger.setLevel(logging.WARN)
+if __name__ != '__main__':
+    logHandler = logging.FileHandler('/data/www/infraserver/gunicorn.error')
+    logHandler.setLevel(logging.WARN)
+    app.logger.addHandler(logHandler)
+    app.logger.setLevel(logging.WARN)
 
 @app.route('/sent', methods=['POST'])
 def post_received():
