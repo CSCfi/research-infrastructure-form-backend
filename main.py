@@ -5,13 +5,13 @@ import json
 from format_json import hierarchize
 app = Flask(__name__)
 
-if __name__ != '__main__':
-    logHandler = logging.FileHandler('/data/www/infraserver/gunicorn.error')
-    logHandler.setLevel(logging.WARN)
-    app.logger.addHandler(logHandler)
-    app.logger.setLevel(logging.WARN)
+# if __name__ != '__main__':
+    # logHandler = logging.FileHandler('/data/www/infraserver/gunicorn.error')
+    # logHandler.setLevel(logging.WARN)
+    # app.logger.addHandler(logHandler)
+    # app.logger.setLevel(logging.WARN)
 
-@app.route("/sent", methods=['POST'])
+@app.route('/sent', methods=['POST'])
 def post_received():
 
     def copy_values(data, firstFields=True, index=""):
@@ -61,6 +61,12 @@ def post_received():
     hierarchize("/data/www/infraserver/formdata", filename, "/data/www/infraserver/formdata")
 
     return redirect('http://dwidrihfe.csc.fi/success.html')
+	
+@app.route('/hook', methods=['POST'])
+def webhook():
+	print(json.dumps(request.json, sort_keys=False, indent=4))
+	return ''
+	
 
 @app.errorhandler(Exception)
 def exception_handler(error):
