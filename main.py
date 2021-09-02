@@ -70,8 +70,8 @@ def webhook():
     if request.json['repository']['name'].split('-')[-1] == 'backend' and 'ref' in request.json:
         print(request.json['ref'].split('/')[-1])
         os.system('cd /data/www/infraserver && git pull && sudo systemctl restart infraform.service')
-	return ''
-	
+    return ''
+
 
 @app.errorhandler(Exception)
 def exception_handler(error):
