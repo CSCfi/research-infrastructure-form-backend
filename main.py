@@ -65,10 +65,10 @@ def post_received():
 	
 @app.route('/hook', methods=['POST'])
 def webhook():
-    app.logger.log(json.dumps(request.json, sort_keys=False, indent=4))
-    app.logger.log(request.json['repository']['name'].split('-')[-1])
+    app.logger.log(logging.INFO, json.dumps(request.json, sort_keys=False, indent=4))
+    app.logger.log(logging.INFO, request.json['repository']['name'].split('-')[-1])
     if request.json['repository']['name'].split('-')[-1] == 'backend' and 'ref' in request.json:
-        app.logger.log(request.json['ref'].split('/')[-1])
+        app.logger.log(logging.INFO, request.json['ref'].split('/')[-1])
         os.system('cd /data/www/infraserver && git pull && sudo systemctl restart infraform.service')
     return ''
 
