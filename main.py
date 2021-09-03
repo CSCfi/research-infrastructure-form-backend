@@ -2,6 +2,7 @@ from flask import Flask, request, redirect
 import datetime
 import logging
 import json
+import os
 from format_json import hierarchize
 app = Flask(__name__)
 
@@ -11,7 +12,7 @@ if __name__ != '__main__':
     app.logger.addHandler(logHandler)
     app.logger.setLevel(logging.WARN)
 
-@app.route("/sent", methods=['POST'])
+@app.route('/sent', methods=['POST'])
 def post_received():
 
     def copy_values(data, firstFields=True, index=""):
@@ -61,6 +62,27 @@ def post_received():
     hierarchize("/data/www/infraserver/formdata", filename, "/data/www/infraserver/formdata")
 
     return redirect('http://dwidrihfe.csc.fi/success.html')
+	
+@app.route('/hook', methods=['POST'])
+def webhook():
+    BRANCH = os.getenv('BRANCH')
+    if 'ref' in request.json and request.json['ref'].split('/')[-1] == BRANCH:
+        if request.json['repository']['name'].split('-')[-1] == 'backend':
+            os.chdir('/data/www/infraserver')
+            # Make sure to clean git status and switch to correct branch
+            os.system('git stash')
+            os.system(f'git checkout {BRANCH}')
+            os.system('git pull')
+            os.system('systemctl restart infraform.service')
+            app.logger.log(logging.WARN, f'INFO: Backend service restarted after push to {BRANCH}')
+        elif request.json['repository']['name'].split('-')[-1] == 'frontend':
+            os.chdir('/data/www/infraform')
+            os.system('git stash')
+            os.system(f'git checkout {BRANCH}')
+            os.system('git pull')
+            app.logger.log(logging.WARN, f'INFO: New frontend version pulled after push to {BRANCH}')
+    return ''
+
 
 @app.errorhandler(Exception)
 def exception_handler(error):
