@@ -66,7 +66,6 @@ def post_received():
 @app.route('/hook', methods=['POST'])
 def webhook():
     BRANCH = os.getenv('BRANCH')
-    app.logger.log(logging.WARN, f'Branch: {BRANCH}')
     if 'ref' in request.json and request.json['ref'].split('/')[-1] == BRANCH:
         if request.json['repository']['name'].split('-')[-1] == 'backend':
             os.chdir('/data/www/infraserver')
