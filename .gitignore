@@ -1,12 +1,17 @@
 /venv
+/env
 /linuxenv
 .vscode/
 __pycache__/*
 testforms/
 
 local*
+gunicorn*
 scripttest/
 
 old_infras/
+formdata/
+Sisaisesti_tarkistetut_prod/
+Sisaisesti_tarkistetut_test/
 no_lang/
 lang/
