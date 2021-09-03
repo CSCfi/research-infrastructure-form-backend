@@ -74,11 +74,13 @@ def webhook():
             os.system(f'git checkout {BRANCH}')
             os.system('git pull')
             os.system('systemctl restart infraform.service')
+            app.logger.log(logging.WARN, f'INFO: Backend service restarted after push to {BRANCH}')
         elif request.json['repository']['name'].split('-')[-1] == 'frontend':
             os.chdir('/data/www/infraform')
             os.system('git stash')
             os.system(f'git checkout {BRANCH}')
             os.system('git pull')
+            app.logger.log(logging.WARN, f'INFO: New frontend version pulled after push to {BRANCH}')
     return ''
 
 
