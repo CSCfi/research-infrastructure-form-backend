@@ -65,13 +65,20 @@ def post_received():
 	
 @app.route('/hook', methods=['POST'])
 def webhook():
-    if 'ref' in request.json and request.json['ref'].split('/')[-1] == 'devel':
+    BRANCH = os.getenv('BRANCH')
+    app.logger.log(logging.WARN, f'Branch: {BRANCH}')
+    if 'ref' in request.json and request.json['ref'].split('/')[-1] == BRANCH:
         if request.json['repository']['name'].split('-')[-1] == 'backend':
             os.chdir('/data/www/infraserver')
+            # Make sure to clean git status and switch to correct branch
+            os.system('git stash')
+            os.system(f'git checkout {BRANCH}')
             os.system('git pull')
             os.system('systemctl restart infraform.service')
         elif request.json['repository']['name'].split('-')[-1] == 'frontend':
             os.chdir('/data/www/infraform')
+            os.system('git stash')
+            os.system(f'git checkout {BRANCH}')
             os.system('git pull')
     return ''
 
