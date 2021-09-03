@@ -10,6 +10,8 @@ gunicorn*
 scripttest/
 
 old_infras/
-/formdata
+formdata/
+Sisaisesti_tarkistetut_prod/
+Sisaisesti_tarkistetut_test/
 no_lang/
 lang/
